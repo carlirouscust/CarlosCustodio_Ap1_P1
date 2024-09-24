@@ -1,5 +1,6 @@
 using CarlosCustodio_Ap1_P1.Components;
 using CarlosCustodio_Ap1_P1.DAL;
+using CarlosCustodio_Ap1_P1.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,7 +10,10 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
 var ConStr = builder.Configuration.GetConnectionString("ConStr");
+
 builder.Services.AddDbContext<Contexto>(Options => Options.UseSqlite(ConStr));
+
+builder.Services.AddScoped<RegistroServices>();
 
 var app = builder.Build();
 
