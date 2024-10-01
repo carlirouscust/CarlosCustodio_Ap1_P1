@@ -1,52 +1,71 @@
 ﻿@page "/Prestamos/Index"
+@using CarlosCustodio_Ap1_P1.Models
+@using CarlosCustodio_Ap1_P1.Services
 @rendermode InteractiveServer
 @inject NavigationManager navigation
+@inject PrestamosService prestamosSevice
 
-<PageTitle></PageTitle>
+ <PageTitle>Consulta Prestamos</PageTitle>
 
     <div class="card shadow-lg">
         <h3 style="font-weight: bold;" class="mb-0 font-weight-bold"></h3>
     </div>
 
     <div class="card-body">
-        
-</div>
-    @*Tabla*@
-    <table class="table table-bordered text-center">
-        <thead class="bg-primary text-white">
-            <tr>
-                <th> </th>
-                <th> </th>
-                <th> </th>
-            </tr>
-        </thead>
-        <tbody>
-        <a href="#"
-           class="btn btn-primary">
-            <span class="bi bi-plus-square mt-3"></span> Crear
-        </a>
-    <td class="text-center">
-        <a href="#" class="btn bi bi-eye"></a>
-    </td>
-    <td class="text-center">
-        <a href="#" class="btn bi bi-pencil-square"></a>
-    </td>
-    <td class="text-center">
-        <a href="#" class="btn bi bi-trash"></a>
-    </td>
 
-    <a href="#"
-       class="btn btn-primary">
-        <span class="bi bi-floppy mt-3"></span> Guardar
-    </a>
-    <a href="#"
-       class="btn btn-primary">
-        <span class="bi bi-arrow-left mt-3"></span> Volver
-    </a>
-    </tbody>
+        @*Boton Crear*@
+        <div class="col-md-3 text-end">
+            <a href="/Prestamos/Create" class="btn btn-primary">><span class="bi bi-plus-square mt-3"></span> Crear </a>
+        </div>
+
+        @*Tabla*@
+        <table class="table table-bordered text-center">
+        @foreach (var prestamos in ListaPrestamos)
+        {
+            <thead class="bg-primary text-white">
+                <tr>
+                    <th>@Prestamos.prestamoId </th>
+                    <th>@Prestamos.deudor </th>
+                    <th>@Prestamos.concepto </th>
+                    <th>@Prestamos.monto </th>
+                </tr>
+                    <td class="text-center">
+                        <a href="Prestamos/Details/@Prestamos.prestamoId" class="btn bi bi-eye"></a>
+                    </td>
+                    <td class="text-center">
+                        <a href="#" class="btn bi bi-pencil-square"></a>
+                    </td>
+                    <td class="text-center">
+                        <a href="#" class="btn bi bi-trash"></a>
+                    </td>
+            </thead>
+        }
+            
+            <tbody>
+                
+            <a href="#"
+               class="btn btn-primary">
+                <span class="bi bi-floppy mt-3"></span> Guardar
+            </a>
+            <a href="#"
+               class="btn btn-primary">
+                <span class="bi bi-arrow-left mt-3"></span> Volver
+            </a>
+            </tbody>
     </table>
+
+    </div>
+
+    
 
 
 @code {
-    
-}
+    public Prestamos Prestamos = new Prestamos();
+    public List<Prestamos> ListaPrestamos = new List<Prestamos>();
+   
+    protected override async Task OnInitializedAsync()
+    {
+        ListaPrestamos =  prestamosSevice.Listar(c => true);
+    }  
+} 
+ 
