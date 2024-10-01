@@ -1,4 +1,9 @@
-﻿<h3>Details</h3>
+﻿@page "/Prestamos/Details/{int:prestamosId}"
+@using CarlosCustodio_Ap1_P1.Models
+@using CarlosCustodio_Ap1_P1.Services
+@rendermode InteractiveServer
+@inject NavigationManager navigation
+@inject PrestamosService prestamosSevice
 
 @code {
 
