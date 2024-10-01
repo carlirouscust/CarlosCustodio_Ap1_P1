@@ -1,6 +1,9 @@
 ﻿using CarlosCustodio_Ap1_P1.DAL;
 using CarlosCustodio_Ap1_P1.Models;
 using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.Contracts;
+
 
 namespace CarlosCustodio_Ap1_P1.Services;
 
@@ -15,7 +18,7 @@ public class PrestamosService
     public async Task<bool> Existe(int prestamosId)
     {
         return await _context.Prestamos
-            .AnyAsync(T => T.prestamosId == prestamosId);
+        .AnyAsync(T => T.prestamoId == prestamosId);
     }
 
     public async Task<bool> Insertar(Prestamos prestamos)
@@ -49,19 +52,19 @@ public class PrestamosService
     {
         return await _context.Prestamos.
             AsNoTracking()
-            .Include(T => T.prestamos)            
-            .FirstOrDefaultAsync(T => T.prestamosId == id);
+            .Include(T => T.prestamoId)
+            .FirstOrDefaultAsync(T => T.prestamoId == id);
     }
 
     public List<Prestamos> Listar(Expression<Func<Prestamos, bool>> criterio)
     {
         return _context.Prestamos.
             AsNoTracking()
-            .Include(T => T.prestamos)          
-            .Where(criterio)      
-            .ToList(); 
+            .Include(T => T.prestamoId)
+            .Where(criterio)
+            .ToList();
     }
-
+}
 
 
 
