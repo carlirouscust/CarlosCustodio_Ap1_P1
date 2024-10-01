@@ -1,4 +1,18 @@
-﻿<h3>Edit</h3>
+﻿@page "/Prestamos/Edit"
+@using CarlosCustodio_Ap1_P1.Models
+@using CarlosCustodio_Ap1_P1.Services
+@rendermode InteractiveServer
+@inject NavigationManager navigation
+@inject PrestamosService prestamosSevice
+
+    <a href="#"
+       class="btn btn-primary">
+        <span class="bi bi-floppy mt-3"></span> Guardar
+    </a>
+    <a href="#"
+       class="btn btn-primary">
+        <span class="bi bi-arrow-left mt-3"></span> Volver
+    </a>
 
 @code {
 
