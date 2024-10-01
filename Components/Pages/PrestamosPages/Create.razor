@@ -7,22 +7,101 @@
 
 <PageTitle>Crear Prestamo</PageTitle>
 
-<div class="card-body">
+<EditForm Model="Prestamos" OnValidSubmit="Guardar">
+    <DataAnnotationsValidator />
+    <div class="card shadow-lg border-0 rounded" style="background-color: #f8f9fa;">
+        <div class="card-header bg-primary text-white" style="text-align: center;">
+            <h3> <i class="fas fa-clipboard-list"></i> Registro de Prestamos</h3>
+        </div>
 
-    <InputText type="type" name="name" value="" />
+        <div class="card-body">          
+            @* Deudor *@
+            <div class="mb-3">
+                <label for="Deudor" class="form-label">Deudor:</label>
+                <InputText @bind-Value="Prestamos.deudor" class="form-control" />
+                <ValidationMessage For="@(() => Prestamos.deudor)" />
+            </div>
+            
+            @* Concepto *@
+            <div class="mb-3">
+                <label for="Concepto" class="form-label">Concepto:</label>
+                <InputText @bind-Value="Prestamos.concepto" class="form-control" />
+                <ValidationMessage For="@(() => Prestamos.concepto)" />
+            </div>
 
-</div>
-    <a href="#"
-       class="btn btn-primary">
-        <span class="bi bi-floppy mt-3"></span> Guardar
-    </a>
-    <a href="#"
-       class="btn btn-primary">
-        <span class="bi bi-arrow-left mt-3"></span> Volver
-    </a>
+            @* Monto *@
+            <div class="mb-3">
+                <label for="Monto" class="form-label">Sueldo Por Horas:</label>
+                <InputNumber @bind-Value="Prestamos.monto" class="form-control" />
+                <ValidationMessage For="@(() => Prestamos.monto)" />
+            </div>
+        </div>
+
+        <div class="card-footer bg-light d-flex justify-content-center mt-3">
+            <div class="btn-group">
+                <button type="button" class="btn btn-outline-primary ml-2" @onclick="Nuevo"><span class="bi bi-plus"></span> Nuevo </button>
+                <button type="submit" class="btn btn-outline-success ml-2"><span class="bi bi-check-circle-fill"></span> Guardar </button>
+                <a type="button" href="/Prestamos/Index/" class="btn btn-outline-danger"><span class="bi bi-arrow-bar-left"></span> Retroceder </a>
+            </div>
+        </div>
+    </div>
+</EditForm>
 
 @code {
+    [Parameter]
+    public int prestamosId { get; set; }
+    public Prestamos Prestamos { get; set; } = new Prestamos();
+    private bool Existe = false;
+    private string ErrorMessage { get; set; } = string.Empty;
+
+    public void Nuevo()
+    {
+        Prestamos = new Prestamos();
+    }
+
+    public async Task Buscar()
+    {       
+        var PrestamoEncontrado = await prestamosSevice.Buscar(Prestamos.prestamoId);
+
+        if (PrestamoEncontrado != null)
+        {
+            Prestamos = PrestamoEncontrado;
+        }
+        else
+        {
+            Nuevo();
+        }
+    }
 
 
+    public async Task Guardar()
+    {    
+        var guardo = await prestamosSevice.Guardar(Prestamos);
+        if (guardo)
+        {
+            Nuevo();
+            Volver();
+        }
+    }
 
+    public void Volver()
+    {
+        navigation.NavigateTo("/Prestamos/Index");
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
