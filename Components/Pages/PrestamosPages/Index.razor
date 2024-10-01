@@ -5,59 +5,68 @@
 @inject NavigationManager navigation
 @inject PrestamosService prestamosSevice
 
- <PageTitle>Consulta Prestamos</PageTitle>
-
-    <div class="card shadow-lg">
-        <h3 style="font-weight: bold;" class="mb-0 font-weight-bold"></h3>
-    </div>
+ <PageTitle>Consulta Prestamos</PageTitle>  
 
     <div class="card-body">
 
         @*Boton Crear*@
         <div class="col-md-3 text-end">
-            <a href="/Prestamos/Create" class="btn btn-primary">><span class="bi bi-plus-square mt-3"></span> Crear </a>
+            <a href="/Prestamos/Create" class="btn btn-primary"><span class="bi bi-plus-square mt-3"></span> Crear </a>
         </div>
 
         @*Tabla*@
         <table class="table table-bordered text-center">
-        @foreach (var prestamos in ListaPrestamos)
-        {
-            <thead class="bg-primary text-white">
+        <thead class="bg-primary text-white">
+            <tr>
+                <th>Deudor</th>
+                <th>Concepto</th>
+                <th>Monto</th>
+                <th>Ver</th>
+                <th>Editar</th>
+                <th>Eliminar</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var prestamos in ListaPrestamos)
+            {
                 <tr>
-                    <th>@Prestamos.prestamoId </th>
-                    <th>@Prestamos.deudor </th>
-                    <th>@Prestamos.concepto </th>
-                    <th>@Prestamos.monto </th>
+                    <td>@prestamos.deudor</td>
+                    <td>@prestamos.concepto</td>
+                    <td>@prestamos.monto</td>          
+                    <td>
+                        <a class="btn btn-outline-primary" href="/Prestamos/Details/@prestamos.prestamoId">
+                            <span class="bi bi-eye"></span>
+                        </a>
+                    </td>
+                    <td>
+                        <a class="btn btn-outline-success" href="/Prestamos/Edit/@prestamos.prestamoId">
+                            <span class="bi bi-marker-tip"></span>
+                        </a>
+                    </td>
+                    <td>
+                        <a class="btn btn-outline-danger" href="/Prestamos/Delete/@prestamos.prestamoId">
+                            <span style="color: red;" class="bi bi-trash3"></span>
+                        </a>
+                    </td>
                 </tr>
-                    <td class="text-center">
-                        <a href="Prestamos/Details/@Prestamos.prestamoId" class="btn bi bi-eye"></a>
-                    </td>
-                    <td class="text-center">
-                        <a href="#" class="btn bi bi-pencil-square"></a>
-                    </td>
-                    <td class="text-center">
-                        <a href="#" class="btn bi bi-trash"></a>
-                    </td>
-            </thead>
-        }
+            }
+        </tbody>
+           
             
-            <tbody>
                 
-            <a href="#"
-               class="btn btn-primary">
-                <span class="bi bi-floppy mt-3"></span> Guardar
-            </a>
-            <a href="#"
-               class="btn btn-primary">
-                <span class="bi bi-arrow-left mt-3"></span> Volver
-            </a>
-            </tbody>
-    </table>
+        </table>
 
     </div>
 
-    
 
+@* <a href="#"
+   class="btn btn-primary">
+    <span class="bi bi-floppy mt-3"></span> Guardar
+</a>
+<a href="#"
+   class="btn btn-primary">
+    <span class="bi bi-arrow-left mt-3"></span> Volver
+</a> *@
 
 @code {
     public Prestamos Prestamos = new Prestamos();
