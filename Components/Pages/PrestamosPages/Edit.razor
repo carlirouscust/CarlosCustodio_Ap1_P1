@@ -1,19 +1,109 @@
-﻿@page "/Prestamos/Edit"
+﻿@page "/Prestamos/Edit/{PrestamoId:int}"
+@rendermode InteractiveServer
 @using CarlosCustodio_Ap1_P1.Models
 @using CarlosCustodio_Ap1_P1.Services
-@rendermode InteractiveServer
-@inject NavigationManager navigation
-@inject PrestamosService prestamosSevice
+@inject PrestamosService prestamosService
+@inject NavigationManager navigationManager
 
-    <a href="#"
-       class="btn btn-primary">
-        <span class="bi bi-floppy mt-3"></span> Guardar
-    </a>
-    <a href="#"
-       class="btn btn-primary">
-        <span class="bi bi-arrow-left mt-3"></span> Volver
-    </a>
+<PageTitle>Editar Prestamo</PageTitle>
+
+<EditForm Model="prestamo" OnValidSubmit="Guardar">
+    <DataAnnotationsValidator />
+
+    <div class="card-header text-center">
+        <h5 class="card-header">Editar prestamo</h5>
+    </div>
+
+    <div class="card-body">
+
+        @*PrestamoId*@
+        <div class="mb-3">
+            <label for="prestamId" class="form-label">PrestamoId:</label>
+            <InputNumber @bind-Value="prestamo.prestamoId" />
+        </div>
+
+        @*Deudor*@
+        <div class="mb-3">
+            <label for="Deudor" class="form-label">Deudor:</label>
+            <InputText @bind-Value="prestamo.deudor" class="form-control" />
+            <ValidationMessage For="@(() => prestamo.deudor)" />
+        </div>
+
+        @*Concepto*@
+        <div class="mb-3">
+            <label for="Concepto" class="form-label">Concepto:</label>
+            <InputText @bind-Value="prestamo.concepto" class="form-control" />
+            <ValidationMessage For="@(() => prestamo.concepto)" />
+        </div>
+
+        @* Monto *@
+        <div class="mb-3">
+            <label for="Concepto" class="form-label">Monto:</label>
+            <InputNumber @bind-Value="prestamo.monto" class="form-control" />
+            <ValidationMessage For="@(() => prestamo.monto)" />
+        </div>
+    </div>
+
+    <div class="card-footer text-center">
+        <div class="btn-group">
+            <button type="submit" class="btn btn-primary"<span class="bi bi-floppy mt-3"></span>Guardar</button>
+            <a href="/Prestamos/Index" class="btn btn-primary" type="button">
+                <span class="bi bi-arrow-left mt-3"></span> Volver
+            </a>
+        </div>
+    </div>
+
+    @if (Validacion)
+    {
+        <div class="alert alert-success text-center" role="alert">
+            El Prestamo se a modificado con exito.
+            Dele al boton volver para retornar a la consulta.
+        </div>
+    }
+
+
+
+
+</EditForm>
 
 @code {
+    [Parameter]
+    public int PrestamoId { get; set; }
+    public Prestamos? prestamo { get; set; } = new Prestamos();
+    private bool Validacion;
+    private bool existe = false;
+
+    public async Task Nuevo()
+    {
+        prestamo = new Prestamos();
+        existe = false;
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        prestamo = await prestamosService.Buscar(PrestamoId);
+    }
+
+    public async Task Buscar()
+    {
+        existe = false;
+        var encontrado = await prestamosService.Buscar(prestamo.prestamoId);
+        if (encontrado != null)
+        {
+            prestamo = encontrado;
+        }
+        else
+        {
+            Nuevo();
+        }
+    }
+
+    public async Task Guardar()
+    {        
+        var guardado = await prestamosService.Guardar(prestamo);
+        if (guardado)
+        {
+            Validacion = true;
+        }
+    }
 
 }
