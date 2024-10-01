@@ -7,40 +7,37 @@
 
 <PageTitle>Eliminar Prestamo</PageTitle>
 
-<div class="container">
-    <div class="row mb-3">
-        <div class="card-header text-center">
-            <h5 class="card-header">Eliminar prestamo</h5>
-        </div>
-        <div class="card-header text-center">
-            <h5 class="card-header">¿Est&aacute;s seguro de que quieres eliminar este prestamo?</h5>
-        </div>
-        <div class="container">
-            <div class="card-header">
-                <div class="col md-6">
-                    <div class="card-body">
-                        <div class="card-header text-center">
-                            <h5 class="card-header">Datos del prestamo:</h5>
-                        </div>
-                        <ul class="list-unstyled">
-                            <li class="text-center">PrestamoId:<strong>@prestamo.prestamoId</strong></li>
-                            <li class="text-center">Deudor:<strong>@prestamo.deudor</strong></li>
-                            <li class="text-center">Concepto:<strong>@prestamo.concepto</strong></li>
-                            <li class="text-center">Monto:<strong>@prestamo.monto</strong></li>
-                        </ul>
+    <div class="container">
+        <div class="row mb-3">
+        <div class="card-header  bg-primary text-white text-center py-2 rounded">
+                <h5 class="card-header">Eliminar prestamo</h5>
+            </div>
+            <div class="card-header text-center">
+                <h5 class="card-header">¿Estas seguro de que quieres eliminar este prestamo?</h5>
+            </div>
+            <div class="container">
+                <div class="card-header">
+                    <div class="col md-6">
+                        <div class="card-body">                           
+                            <ul class="list-unstyled">
+                                <li class="text-center">PrestamoId:<strong>@prestamo.prestamoId</strong></li>
+                                <li class="text-center">Deudor:<strong>@prestamo.deudor</strong></li>
+                                <li class="text-center">Concepto:<strong>@prestamo.concepto</strong></li>
+                                <li class="text-center">Monto:<strong>@prestamo.monto</strong></li>
+                            </ul>
 
+                        </div>
+                        <div class="card-body text-center">
+                            <a @onclick="EliminarPrestamo" class="btn btn-primary"><span class="bi bi-trash"></span>Eliminar</a>
+                            <a href="/Prestamos/Index" class="btn btn-primary"><span class="bi bi-arrow-left mt-3"></span>Volver</a>
+                        </div>
                     </div>
-                    <div class="card-body text-center">
-                        <a @onclick="EliminarPrestamo" class="btn btn-primary"><span class="bi bi-trash"></span>Eliminar</a>
-                        <a href="/Prestamos/Index" class="btn btn-primary"><span class="bi bi-arrow-left mt-3"></span>Volver</a>
-                    </div>
+
                 </div>
 
             </div>
 
         </div>
-
-    </div>
 
     @if (Validacion)
     {
@@ -50,7 +47,7 @@
         </div>
     }
 
-</div>
+    </div>
 
 
 @code {
