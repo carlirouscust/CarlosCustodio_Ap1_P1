@@ -51,8 +51,7 @@ public class PrestamosService
     public async Task<Prestamos?> Buscar(int id)
     {
         return await _context.Prestamos.
-            AsNoTracking()
-            .Include(T => T.prestamoId)
+            AsNoTracking()        
             .FirstOrDefaultAsync(T => T.prestamoId == id);
     }
 
