@@ -11,15 +11,18 @@ namespace CarlosCustodio_Ap1_P1.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Registro",
+                name: "Prestamos",
                 columns: table => new
                 {
-                    registroId = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true)
+                    prestamoId = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    deudor = table.Column<string>(type: "TEXT", nullable: false),
+                    concepto = table.Column<string>(type: "TEXT", nullable: false),
+                    monto = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Registro", x => x.registroId);
+                    table.PrimaryKey("PK_Prestamos", x => x.prestamoId);
                 });
         }
 
@@ -27,7 +30,7 @@ namespace CarlosCustodio_Ap1_P1.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Registro");
+                name: "Prestamos");
         }
     }
 }
