@@ -1,10 +1,56 @@
-﻿@page "/Prestamos/Details/"
+﻿@page "/Prestamos/Details/{prestamoId:int}"
 @using CarlosCustodio_Ap1_P1.Models
 @using CarlosCustodio_Ap1_P1.Services
 @rendermode InteractiveServer
 @inject NavigationManager navigation
 @inject PrestamosService prestamosSevice
 
-@code {
+<PageTitle>Detalles de prestamo</PageTitle>
 
+<div class="container">
+    <div class="row mb-3">
+        <div class="card-header text-center">
+            <h5 class="card-header">Detalles de prestamo</h5>
+        </div>
+        <div class="card-header text-center">          
+        </div>
+        <div class="container">
+            <div class="card-header">
+                <div class="col md-6">
+                    <div class="card-body">
+                        <div class="card-header text-center">
+                            <h5 class="card-header">Datos del prestamo:</h5>
+                        </div>
+                        <ul class="list-unstyled">
+                            <li class="text-center">PrestamoId:<strong>@prestamo.prestamoId</strong></li>
+                            <li class="text-center">Deudor:<strong>@prestamo.deudor</strong></li>
+                            <li class="text-center">Concepto:<strong>@prestamo.concepto</strong></li>
+                            <li class="text-center">Monto:<strong>@prestamo.monto</strong></li>
+                        </ul>
+
+                    </div>
+                    <div class="card-body text-center">                       
+                        <a href="/Prestamos/Index" class="btn btn-primary"><span class="bi bi-arrow-left mt-3"></span>Volver</a>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+ </div>
+@code {
+        [Parameter]
+        public int PrestamoId { get; set; }
+        public Prestamos? prestamo { get; set; } = new Prestamos();
+        private bool Validacion;
+
+        protected override async Task OnInitializedAsync()
+        {
+            if (prestamo != null)
+            {
+                prestamo = await prestamosSevice.Buscar(PrestamoId);
+            }
+        }
 }
