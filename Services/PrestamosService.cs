@@ -59,8 +59,7 @@ public class PrestamosService
     public List<Prestamos> Listar(Expression<Func<Prestamos, bool>> criterio)
     {
         return _context.Prestamos.
-            AsNoTracking()
-            .Include(T => T.prestamoId)
+            AsNoTracking()         
             .Where(criterio)
             .ToList();
     }
