@@ -9,4 +9,13 @@ public class Contexto : DbContext
     : base(options) { }
 
     public DbSet<Prestamos> Prestamos { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+        //modelBuilder.Entity<Deudores>().HasData(new List<Deudores>();
+        {
+            //new Prestamos(){ }
+        }
+    }
 }
