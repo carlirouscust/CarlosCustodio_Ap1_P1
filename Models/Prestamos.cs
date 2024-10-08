@@ -14,4 +14,6 @@ public class Prestamos
     public string? concepto { get; set; }
     [Required(ErrorMessage = "El campo es obligatorio")]
     public int? monto { get; set; }
+
+    public int? balance { get; set; }
 }
