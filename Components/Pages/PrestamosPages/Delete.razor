@@ -1,7 +1,5 @@
 ﻿@page "/Prestamos/Delete/{prestamoId:int}"
 @rendermode InteractiveServer
-@using CarlosCustodio_Ap1_P1.Models
-@using CarlosCustodio_Ap1_P1.Services
 @inject PrestamosService prestamoService
 
 
@@ -21,7 +19,7 @@
                         <div class="card-body">                           
                             <ul class="list-unstyled">
                                 <li class="text-center">PrestamoId:<strong>@prestamo.prestamoId</strong></li>
-                                <li class="text-center">Deudor:<strong>@prestamo.deudor</strong></li>
+                                <li class="text-center">Deudor:<strong>@prestamo.deudores.Nombres</strong></li>
                                 <li class="text-center">Concepto:<strong>@prestamo.concepto</strong></li>
                                 <li class="text-center">Monto:<strong>@prestamo.monto</strong></li>
                             </ul>
