@@ -1,7 +1,5 @@
 ﻿@page "/Prestamos/Edit/{PrestamoId:int}"
 @rendermode InteractiveServer
-@using CarlosCustodio_Ap1_P1.Models
-@using CarlosCustodio_Ap1_P1.Services
 @inject PrestamosService prestamosService
 @inject NavigationManager navigationManager
 
@@ -18,8 +16,8 @@
             @*Deudor*@
             <div class="mb-3">
                 <label for="Deudor" class="form-label">Deudor:</label>
-                <InputText @bind-Value="prestamo.deudor" class="form-control" />
-                <ValidationMessage For="@(() => prestamo.deudor)" />
+                <InputText @bind-Value="prestamo.deudores.Nombres" class="form-control" />
+                <ValidationMessage For="@(() => prestamo.deudores.Nombres)" />
         </div>
 
             @*Concepto*@
