@@ -1,6 +1,4 @@
 ﻿@page "/Prestamos/Index"
-@using CarlosCustodio_Ap1_P1.Models
-@using CarlosCustodio_Ap1_P1.Services
 @rendermode InteractiveServer
 @inject NavigationManager navigation
 @inject PrestamosService prestamosSevice
@@ -30,7 +28,7 @@
             @foreach (var prestamos in ListaPrestamos)
             {
                 <tr>
-                    <td>@prestamos.deudor</td>
+                    <td>@prestamos.deudores.Nombres</td>
                     <td>@prestamos.concepto</td>
                     <td>@prestamos.monto</td>          
                     <td>
