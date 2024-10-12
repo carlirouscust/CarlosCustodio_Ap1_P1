@@ -16,8 +16,13 @@
             @* Deudor *@
             <div class="mb-3">
                 <label for="Deudor" class="form-label">Deudor:</label>
-                <InputText @bind-Value="Prestamos.deudores.Nombres" class="form-control" />
-                <ValidationMessage For="@(() => Prestamos.deudores.Nombres)" />
+                <InputSelect @bind-Value="Prestamos.deudorId" class="form-select" aria-label="deudorId">
+                    <option value="0">Seleccione un deudor</option>
+                    @foreach (var item in ListaDeudores)
+                    {
+                        <option value="@item.deudorId">@item.Nombres</option>
+                    }
+                </InputSelect>
             </div>
             
             @* Concepto *@
@@ -29,7 +34,7 @@
 
             @* Monto *@
             <div class="mb-3">
-                <label for="Monto" class="form-label">Sueldo Por Horas:</label>
+                <label for="Monto" class="form-label">Monto:</label>
                 <InputNumber @bind-Value="Prestamos.monto" class="form-control" />
                 <ValidationMessage For="@(() => Prestamos.monto)" />
             </div>
@@ -49,8 +54,14 @@
     [Parameter]
     public int prestamosId { get; set; }
     public Prestamos Prestamos { get; set; } = new Prestamos();
+    public List<Deudores> ListaDeudores { get; set; } = new List<Deudores>();
     private bool Existe = false;
     private string ErrorMessage { get; set; } = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        ListaDeudores = await prestamosSevice.ObtenerDeudores();
+    }
 
     public void Nuevo()
     {
