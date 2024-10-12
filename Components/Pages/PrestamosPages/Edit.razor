@@ -100,7 +100,7 @@
         var guardado = await prestamosService.Guardar(prestamo);
         if (guardado)
         {
-            Validacion = true;
+            navigationManager.NavigateTo("/Prestamos/Index");
         }
     }
 
