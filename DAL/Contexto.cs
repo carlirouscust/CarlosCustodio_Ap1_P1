@@ -18,7 +18,25 @@ public class Contexto : DbContext
 	{
 		base.OnModelCreating(modelBuilder);
 
-		modelBuilder.Entity<Deudores>().HasData(
+        modelBuilder.Entity<Cobros>()
+			.HasOne(c => c.deudores)
+			.WithMany()
+			.HasForeignKey(c => c.deudorId)
+			.OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<CobrosDetalles>()
+            .HasOne(cd => cd.cobro)
+            .WithMany(c => c.cobroDetalles)
+            .HasForeignKey(cd => cd.cobroId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<CobrosDetalles>()
+            .HasOne(cd => cd.prestamos)
+            .WithMany()
+            .HasForeignKey(cd => cd.prestamoId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<Deudores>().HasData(
 			new Deudores
 			{
 				deudorId = 1,
@@ -35,29 +53,48 @@ public class Contexto : DbContext
 				Nombres = "Juancito"
 			}
 		);
+        modelBuilder.Entity<Prestamos>().HasData(
+         new Prestamos 
+		 { 
+			 prestamoId = 1, 
+			 deudorId = 1, 
+			 concepto = "Carro", 
+			 monto = 5000m, balance = 3000m },
 
-		modelBuilder.Entity<CobrosDetalles>().HasData(
+         new Prestamos 
+		 { 
+			 prestamoId = 2, 
+			 deudorId = 2, 
+			 concepto = "Carro", 
+			 monto = 7000m, 
+			 balance = 5000m }
+		);
+
+        modelBuilder.Entity<Cobros>().HasData(
+         new Cobros 
+		 { 
+			 cobroId = 1, 
+			 fecha = new DateTime(2024, 10, 11), 
+			 deudorId = 1, monto = 2000m },
+
+         new Cobros 
+		 { 
+			 cobroId = 2, 
+			 fecha = new DateTime(2023, 10, 5), 
+			 deudorId = 2, monto = 3000m }
+		);
+
+        modelBuilder.Entity<CobrosDetalles>().HasData(
 			new CobrosDetalles
 			{
 				detalleId = 1,
-				cobroId = 0,
-				prestamoId = 0,
 				valorCobrado = 1000m
 			},
 			new CobrosDetalles
 			{
 				detalleId = 2,
-                cobroId = 0,
-                prestamoId = 0,
                 valorCobrado = 4000m
-			},
-			new CobrosDetalles
-			{
-				detalleId = 3,
-                cobroId = 0,
-                prestamoId = 0,
-                valorCobrado = 1123m
-			}
+			}			
 		); 
 
 	}
