@@ -17,6 +17,8 @@ builder.Services.AddScoped<PrestamosService>();
 
 builder.Services.AddScoped<CobrosService>();
 
+builder.Services.AddScoped<CobrosDetallesService>();
+
 builder.Services.AddApplicationInsightsTelemetry(new Microsoft.ApplicationInsights.AspNetCore.Extensions.ApplicationInsightsServiceOptions
 {
     ConnectionString = builder.Configuration["APPLICATIONINSIGHTS_CONNECTION_STRING"]
