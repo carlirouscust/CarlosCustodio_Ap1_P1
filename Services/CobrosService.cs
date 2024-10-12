@@ -70,4 +70,8 @@ public class CobrosService
         .Where(criterio)
         .ToListAsync();
     }
+    public async Task<List<Prestamos>> ObtenerPrestamos()
+    {
+        return await _contexto.Prestamos.ToListAsync();
+    }
 }
