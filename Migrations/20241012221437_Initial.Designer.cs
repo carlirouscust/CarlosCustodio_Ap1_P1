@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarlosCustodio_Ap1_P1.Migrations
 {
     [DbContext(typeof(Contexto))]
-    [Migration("20241012033711_Initial")]
+    [Migration("20241012221437_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -40,6 +40,22 @@ namespace CarlosCustodio_Ap1_P1.Migrations
                     b.HasIndex("deudorId");
 
                     b.ToTable("Cobros");
+
+                    b.HasData(
+                        new
+                        {
+                            cobroId = 1,
+                            deudorId = 1,
+                            fecha = new DateTime(2024, 10, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            monto = 2000m
+                        },
+                        new
+                        {
+                            cobroId = 2,
+                            deudorId = 2,
+                            fecha = new DateTime(2023, 10, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            monto = 3000m
+                        });
                 });
 
             modelBuilder.Entity("CarlosCustodio_Ap1_P1.Models.CobrosDetalles", b =>
@@ -64,6 +80,22 @@ namespace CarlosCustodio_Ap1_P1.Migrations
                     b.HasIndex("prestamoId");
 
                     b.ToTable("CobrosDetalles");
+
+                    b.HasData(
+                        new
+                        {
+                            detalleId = 1,
+                            cobroId = 1,
+                            prestamoId = 1,
+                            valorCobrado = 1000m
+                        },
+                        new
+                        {
+                            detalleId = 2,
+                            cobroId = 2,
+                            prestamoId = 2,
+                            valorCobrado = 4000m
+                        });
                 });
 
             modelBuilder.Entity("CarlosCustodio_Ap1_P1.Models.Deudores", b =>
@@ -124,6 +156,24 @@ namespace CarlosCustodio_Ap1_P1.Migrations
                     b.HasIndex("deudorId");
 
                     b.ToTable("Prestamos");
+
+                    b.HasData(
+                        new
+                        {
+                            prestamoId = 1,
+                            balance = 3000m,
+                            concepto = "Carro",
+                            deudorId = 1,
+                            monto = 5000m
+                        },
+                        new
+                        {
+                            prestamoId = 2,
+                            balance = 5000m,
+                            concepto = "Carro",
+                            deudorId = 2,
+                            monto = 7000m
+                        });
                 });
 
             modelBuilder.Entity("CarlosCustodio_Ap1_P1.Models.Cobros", b =>
@@ -148,7 +198,7 @@ namespace CarlosCustodio_Ap1_P1.Migrations
                     b.HasOne("CarlosCustodio_Ap1_P1.Models.Prestamos", "prestamos")
                         .WithMany()
                         .HasForeignKey("prestamoId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("cobro");
@@ -159,7 +209,7 @@ namespace CarlosCustodio_Ap1_P1.Migrations
             modelBuilder.Entity("CarlosCustodio_Ap1_P1.Models.Prestamos", b =>
                 {
                     b.HasOne("CarlosCustodio_Ap1_P1.Models.Deudores", "deudores")
-                        .WithMany()
+                        .WithMany("Prestamos")
                         .HasForeignKey("deudorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -170,6 +220,11 @@ namespace CarlosCustodio_Ap1_P1.Migrations
             modelBuilder.Entity("CarlosCustodio_Ap1_P1.Models.Cobros", b =>
                 {
                     b.Navigation("cobroDetalles");
+                });
+
+            modelBuilder.Entity("CarlosCustodio_Ap1_P1.Models.Deudores", b =>
+                {
+                    b.Navigation("Prestamos");
                 });
 #pragma warning restore 612, 618
         }

@@ -93,7 +93,7 @@ namespace CarlosCustodio_Ap1_P1.Migrations
                         column: x => x.prestamoId,
                         principalTable: "Prestamos",
                         principalColumn: "prestamoId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.InsertData(
@@ -104,6 +104,33 @@ namespace CarlosCustodio_Ap1_P1.Migrations
                     { 1, "Carlos" },
                     { 2, "Maria" },
                     { 3, "Juancito" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Cobros",
+                columns: new[] { "cobroId", "deudorId", "fecha", "monto" },
+                values: new object[,]
+                {
+                    { 1, 1, new DateTime(2024, 10, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), 2000m },
+                    { 2, 2, new DateTime(2023, 10, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), 3000m }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Prestamos",
+                columns: new[] { "prestamoId", "balance", "concepto", "deudorId", "monto" },
+                values: new object[,]
+                {
+                    { 1, 3000m, "Carro", 1, 5000m },
+                    { 2, 5000m, "Carro", 2, 7000m }
+                });
+
+            migrationBuilder.InsertData(
+                table: "CobrosDetalles",
+                columns: new[] { "detalleId", "cobroId", "prestamoId", "valorCobrado" },
+                values: new object[,]
+                {
+                    { 1, 1, 1, 1000m },
+                    { 2, 2, 2, 4000m }
                 });
 
             migrationBuilder.CreateIndex(
