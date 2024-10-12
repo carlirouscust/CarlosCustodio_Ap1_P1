@@ -10,4 +10,6 @@ public class Deudores
 
     [Required(ErrorMessage = "El campo es obligatorio")]
     public string? Nombres { get; set; }
+
+    public ICollection<Prestamos> Prestamos { get; set; }
 }
