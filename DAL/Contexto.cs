@@ -36,5 +36,29 @@ public class Contexto : DbContext
 			}
 		);
 
+		modelBuilder.Entity<CobrosDetalles>().HasData(
+			new CobrosDetalles
+			{
+				detalleId = 1,
+				cobroId = 0,
+				prestamoId = 0,
+				valorCobrado = 1000m
+			},
+			new CobrosDetalles
+			{
+				detalleId = 2,
+                cobroId = 0,
+                prestamoId = 0,
+                valorCobrado = 4000m
+			},
+			new CobrosDetalles
+			{
+				detalleId = 3,
+                cobroId = 0,
+                prestamoId = 0,
+                valorCobrado = 1123m
+			}
+		); 
+
 	}
 }
