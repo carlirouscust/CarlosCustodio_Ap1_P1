@@ -63,6 +63,11 @@ public class PrestamosService
             .Where(criterio)
             .ToList();
     }
+
+    public async Task<List<Deudores>> ObtenerDeudores()
+    {
+        return await _context.Deudores.ToListAsync();
+    }
 }
 
 
