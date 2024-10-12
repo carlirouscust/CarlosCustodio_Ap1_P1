@@ -1,0 +1,110 @@
+﻿@page "/Cobros/Create"
+@rendermode InteractiveServer
+@inject NavigationManager navigation
+@inject CobrosService cobrosService
+@inject PrestamosService prestamosService
+
+<PageTitle>Crear Cobro</PageTitle>
+
+<EditForm Model="cobros" OnValidSubmit="Guardar">
+    <DataAnnotationsValidator />
+    <div class="card shadow-lg border-0 rounded" style="background-color: #f8f9fa;">
+        <div class="card-header bg-primary text-white" style="text-align: center;">
+            <h3> <i class="fas fa-clipboard-list"></i> Registro de Cobros</h3>
+        </div>
+
+        <div class="card-body">
+
+            @* Fecha *@
+            <div class="mb-3">
+                <label for="fecha" class="form-label">Fecha:</label>
+                <InputDate @bind-Value="cobros.fecha" class="form-control" />
+                <ValidationMessage For="@(() => cobros.fecha)" />
+            </div>
+
+            @* Deudor *@
+            <div class="mb-3">
+                <label for="Deudor" class="form-label">Deudor:</label>
+                <InputSelect @bind-Value="cobros.deudorId" class="form-control" aria-label="deudorId">
+                    <option value="0">Seleccione un deudor</option>
+                    @foreach (var item in ListaDeudores)
+                    {
+                        <option value="@item.deudorId">@item.Nombres</option>
+                    }
+                </InputSelect>
+            </div>
+
+            @* Monto *@
+            <div class="mb-3">
+                <label for="Monto" class="form-label">Monto:</label>
+                <InputNumber @bind-Value="cobros.monto" class="form-control" />
+                <ValidationMessage For="@(() => cobros.monto)" />
+            </div>
+        </div>
+
+        <div class="card-footer bg-light d-flex justify-content-center mt-3">
+            <div class="btn-group">
+                <button type="button" class="btn btn-outline-primary ml-2" @onclick="Nuevo"><span class="bi bi-plus"></span> Nuevo </button>
+                <button type="submit" class="btn btn-outline-success ml-2" @onclick="Guardar"><span class="bi bi-check-circle-fill"></span> Guardar </button>
+                <a type="button" href="/Prestamos/Index/" class="btn btn-outline-danger"><span class="bi bi-arrow-bar-left"></span> Retroceder </a>
+            </div>
+        </div>
+
+        @if (!string.IsNullOrEmpty(ErrorMessage))
+        {
+            <div class="alert alert-danger" role="alert">
+                @ErrorMessage
+            </div>
+        }
+
+    </div>
+</EditForm>
+
+@code {
+    [Parameter]
+    public int CobroId { get; set; }
+    public Cobros cobros { get; set; } = new Cobros();
+    public List<Deudores> ListaDeudores { get; set; } = new List<Deudores>();
+    private bool Existe = false;
+    private string ErrorMessage { get; set; } = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        ListaDeudores = await prestamosService.ObtenerDeudores();
+    }
+
+    public void Nuevo()
+    {
+        cobros = new Cobros();
+    }
+
+    public async Task Buscar()
+    {
+        var CobroEncontrado = await cobrosService.Buscar(cobros.cobroId);
+
+        if (CobroEncontrado != null)
+        {
+            cobros = CobroEncontrado;
+        }
+        else
+        {
+            Nuevo();
+        }
+    }
+
+
+    public async Task Guardar()
+    {
+        var guardo = await cobrosService.Guardar(cobros);
+        if (guardo)
+        {
+            Nuevo();
+            Volver();
+        }
+    }
+
+    public void Volver()
+    {
+        navigation.NavigateTo("/Prestamos/Index");
+    }
+}
