@@ -67,6 +67,7 @@ public class CobrosService
     {
         return await _contexto.Cobros
         .AsNoTracking()
+        .Include(c => c.deudores)
         .Where(criterio)
         .ToListAsync();
     }
