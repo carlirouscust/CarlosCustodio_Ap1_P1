@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace CarlosCustodio_Ap1_P1.Migrations
 {
     /// <inheritdoc />
@@ -97,22 +99,12 @@ namespace CarlosCustodio_Ap1_P1.Migrations
             migrationBuilder.InsertData(
                 table: "Deudores",
                 columns: new[] { "deudorId", "Nombres" },
-                values: new object[] { 1, "Carlos" });
-
-            migrationBuilder.InsertData(
-                table: "Cobros",
-                columns: new[] { "cobroId", "deudorId", "fecha", "monto" },
-                values: new object[] { 1, 1, new DateTime(2023, 10, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 2000m });
-
-            migrationBuilder.InsertData(
-                table: "Prestamos",
-                columns: new[] { "prestamoId", "balance", "concepto", "deudorId", "monto" },
-                values: new object[] { 1, 3000m, "Casa", 1, 5000m });
-
-            migrationBuilder.InsertData(
-                table: "CobrosDetalles",
-                columns: new[] { "detalleId", "cobroId", "prestamoId", "valorCobrado" },
-                values: new object[] { 1, 1, 1, 1000m });
+                values: new object[,]
+                {
+                    { 1, "Carlos" },
+                    { 2, "Maria" },
+                    { 3, "Juancito" }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Cobros_deudorId",

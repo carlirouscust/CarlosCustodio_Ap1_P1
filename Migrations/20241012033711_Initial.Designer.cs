@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarlosCustodio_Ap1_P1.Migrations
 {
     [DbContext(typeof(Contexto))]
-    [Migration("20241011052827_Initial")]
+    [Migration("20241012033711_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -40,15 +40,6 @@ namespace CarlosCustodio_Ap1_P1.Migrations
                     b.HasIndex("deudorId");
 
                     b.ToTable("Cobros");
-
-                    b.HasData(
-                        new
-                        {
-                            cobroId = 1,
-                            deudorId = 1,
-                            fecha = new DateTime(2023, 10, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            monto = 2000m
-                        });
                 });
 
             modelBuilder.Entity("CarlosCustodio_Ap1_P1.Models.CobrosDetalles", b =>
@@ -73,15 +64,6 @@ namespace CarlosCustodio_Ap1_P1.Migrations
                     b.HasIndex("prestamoId");
 
                     b.ToTable("CobrosDetalles");
-
-                    b.HasData(
-                        new
-                        {
-                            detalleId = 1,
-                            cobroId = 1,
-                            prestamoId = 1,
-                            valorCobrado = 1000m
-                        });
                 });
 
             modelBuilder.Entity("CarlosCustodio_Ap1_P1.Models.Deudores", b =>
@@ -103,6 +85,16 @@ namespace CarlosCustodio_Ap1_P1.Migrations
                         {
                             deudorId = 1,
                             Nombres = "Carlos"
+                        },
+                        new
+                        {
+                            deudorId = 2,
+                            Nombres = "Maria"
+                        },
+                        new
+                        {
+                            deudorId = 3,
+                            Nombres = "Juancito"
                         });
                 });
 
@@ -132,16 +124,6 @@ namespace CarlosCustodio_Ap1_P1.Migrations
                     b.HasIndex("deudorId");
 
                     b.ToTable("Prestamos");
-
-                    b.HasData(
-                        new
-                        {
-                            prestamoId = 1,
-                            balance = 3000m,
-                            concepto = "Casa",
-                            deudorId = 1,
-                            monto = 5000m
-                        });
                 });
 
             modelBuilder.Entity("CarlosCustodio_Ap1_P1.Models.Cobros", b =>
