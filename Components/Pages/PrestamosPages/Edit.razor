@@ -16,9 +16,14 @@
             @*Deudor*@
             <div class="mb-3">
                 <label for="Deudor" class="form-label">Deudor:</label>
-                <InputText @bind-Value="prestamo.deudores.Nombres" class="form-control" />
-                <ValidationMessage For="@(() => prestamo.deudores.Nombres)" />
-        </div>
+                <InputSelect @bind-Value="prestamo.deudorId" class="form-select" aria-label="deudorId">
+                    <option value="0">Seleccione un deudor</option>
+                    @foreach (var item in ListaDeudores)
+                    {
+                        <option value="@item.deudorId">@item.Nombres</option>
+                    }
+                </InputSelect>
+            </div>
 
             @*Concepto*@
             <div class="mb-3">
@@ -61,6 +66,7 @@
     [Parameter]
     public int PrestamoId { get; set; }
     public Prestamos? prestamo { get; set; } = new Prestamos();
+    public List<Deudores> ListaDeudores { get; set; } = new List<Deudores>();
     private bool Validacion;
     private bool existe = false;
 
@@ -72,6 +78,7 @@
     protected override async Task OnInitializedAsync()
     {
         prestamo = await prestamosService.Buscar(PrestamoId);
+        ListaDeudores = await prestamosService.ObtenerDeudores();
     }
 
     public async Task Buscar()
