@@ -92,7 +92,9 @@
 
 
     public async Task Guardar()
-    {    
+    {
+        Prestamos.balance = Prestamos.monto;
+
         var guardo = await prestamosSevice.Guardar(Prestamos);
         if (guardo)
         {
