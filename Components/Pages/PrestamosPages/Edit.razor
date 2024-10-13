@@ -1,13 +1,11 @@
 ﻿@page "/Prestamos/Edit/{PrestamoId:int}"
 @rendermode InteractiveServer
-@using CarlosCustodio_Ap1_P1.Models
-@using CarlosCustodio_Ap1_P1.Services
 @inject PrestamosService prestamosService
 @inject NavigationManager navigationManager
 
 <PageTitle>Editar Prestamo</PageTitle>
 
-<EditForm Model="prestamo" OnValidSubmit="Guardar">
+<EditForm Model="prestamo" OnValidSubmit="Guardar" FormName="prestamosForm">
     <DataAnnotationsValidator />
     <div class="card shadow-lg border-0 rounded" style="background-color: #f8f9fa;">
         <div class="card-header bg-primary text-white" style="text-align: center;">
@@ -18,9 +16,14 @@
             @*Deudor*@
             <div class="mb-3">
                 <label for="Deudor" class="form-label">Deudor:</label>
-                <InputText @bind-Value="prestamo.deudor" class="form-control" />
-                <ValidationMessage For="@(() => prestamo.deudor)" />
-        </div>
+                <InputSelect @bind-Value="prestamo.deudorId" class="form-select" aria-label="deudorId">
+                    <option value="0">Seleccione un deudor</option>
+                    @foreach (var item in ListaDeudores)
+                    {
+                        <option value="@item.deudorId">@item.Nombres</option>
+                    }
+                </InputSelect>
+            </div>
 
             @*Concepto*@
             <div class="mb-3">
@@ -63,6 +66,7 @@
     [Parameter]
     public int PrestamoId { get; set; }
     public Prestamos? prestamo { get; set; } = new Prestamos();
+    public List<Deudores> ListaDeudores { get; set; } = new List<Deudores>();
     private bool Validacion;
     private bool existe = false;
 
@@ -74,6 +78,7 @@
     protected override async Task OnInitializedAsync()
     {
         prestamo = await prestamosService.Buscar(PrestamoId);
+        ListaDeudores = await prestamosService.ObtenerDeudores();
     }
 
     public async Task Buscar()
@@ -95,7 +100,7 @@
         var guardado = await prestamosService.Guardar(prestamo);
         if (guardado)
         {
-            Validacion = true;
+            navigationManager.NavigateTo("/Prestamos/Index");
         }
     }
 

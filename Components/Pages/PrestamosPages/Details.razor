@@ -1,6 +1,4 @@
 ﻿@page "/Prestamos/Details/{prestamoId:int}"
-@using CarlosCustodio_Ap1_P1.Models
-@using CarlosCustodio_Ap1_P1.Services
 @rendermode InteractiveServer
 @inject NavigationManager navigation
 @inject PrestamosService prestamosSevice
@@ -8,18 +6,18 @@
 <PageTitle>Detalles de prestamo</PageTitle>
 
 <div class="container">
-    <div class="card shadow-header">
-        <div class="card-header  bg-primary text-white text-center py-2 rounded">
+    <div class="card shadow-lg rounded">
+        <div class="card bg-primary text-white py-2 rounded">
             <h5 class="text-center">Detalles de prestamo</h5>
         </div>
-        <div class="card-header text-center">          
+        <div class="card-body text-center">          
         </div>
         <div class="container">
             <div class="row">
                 <div class="col md-6">
                     <div class="card-body">                        
                         <ul class="list-unstyled">                         
-                            <li class="text-center">Deudor:<strong>@prestamo.deudor</strong></li>
+                            <li class="text-center">Deudor:<strong>@prestamo.deudores.Nombres</strong></li>
                             <li class="text-center">Concepto:<strong>@prestamo.concepto</strong></li>
                             <li class="text-center">Monto:<strong>@prestamo.monto</strong></li>
                         </ul>

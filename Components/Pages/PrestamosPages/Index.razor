@@ -1,16 +1,17 @@
 ﻿@page "/Prestamos/Index"
-@using CarlosCustodio_Ap1_P1.Models
-@using CarlosCustodio_Ap1_P1.Services
 @rendermode InteractiveServer
 @inject NavigationManager navigation
 @inject PrestamosService prestamosSevice
 
- <PageTitle>Consulta Prestamos</PageTitle>  
+ <PageTitle>Consulta Prestamos</PageTitle>
 
-    <div class="card-body">
+<div class="card-body shadow-lg border-3 rounded" style="background-color: #f8f9fa;">
+        <div class="card-header bg-primary text-white" style="text-align: center;">
+            <h3> <i class="fas fa-clipboard-list"></i> Registro de Prestamos</h3>
+        </div>
 
         @*Boton Crear*@
-        <div class="col-md-3 text-end">
+        <div class="col-md-3">
             <a href="/Prestamos/Create" class="btn btn-primary"><span class="bi bi-plus-square mt-3"></span> Crear </a>
         </div>
 
@@ -21,6 +22,7 @@
                 <th>Deudor</th>
                 <th>Concepto</th>
                 <th>Monto</th>
+                <th>Balance</th>
                 <th>Ver</th>
                 <th>Editar</th>
                 <th>Eliminar</th>
@@ -30,9 +32,10 @@
             @foreach (var prestamos in ListaPrestamos)
             {
                 <tr>
-                    <td>@prestamos.deudor</td>
+                    <td>@prestamos.deudores.Nombres</td>
                     <td>@prestamos.concepto</td>
                     <td>@prestamos.monto</td>          
+                    <td>@prestamos.balance</td>          
                     <td>
                         <a class="btn btn-outline-primary" href="/Prestamos/Details/@prestamos.prestamoId">
                             <span class="bi bi-eye"></span>
@@ -57,16 +60,6 @@
         </table>
 
     </div>
-
-
-@* <a href="#"
-   class="btn btn-primary">
-    <span class="bi bi-floppy mt-3"></span> Guardar
-</a>
-<a href="#"
-   class="btn btn-primary">
-    <span class="bi bi-arrow-left mt-3"></span> Volver
-</a> *@
 
 @code {
     public Prestamos Prestamos = new Prestamos();

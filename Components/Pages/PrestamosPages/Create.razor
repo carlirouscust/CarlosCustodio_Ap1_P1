@@ -1,6 +1,4 @@
 ﻿@page "/Prestamos/Create"
-@using CarlosCustodio_Ap1_P1.Models
-@using CarlosCustodio_Ap1_P1.Services
 @rendermode InteractiveServer
 @inject NavigationManager navigation
 @inject PrestamosService prestamosSevice
@@ -18,8 +16,13 @@
             @* Deudor *@
             <div class="mb-3">
                 <label for="Deudor" class="form-label">Deudor:</label>
-                <InputText @bind-Value="Prestamos.deudor" class="form-control" />
-                <ValidationMessage For="@(() => Prestamos.deudor)" />
+                <InputSelect @bind-Value="Prestamos.deudorId" class="form-select" aria-label="deudorId">
+                    <option value="0">Seleccione un deudor</option>
+                    @foreach (var item in ListaDeudores)
+                    {
+                        <option value="@item.deudorId">@item.Nombres</option>
+                    }
+                </InputSelect>
             </div>
             
             @* Concepto *@
@@ -31,7 +34,7 @@
 
             @* Monto *@
             <div class="mb-3">
-                <label for="Monto" class="form-label">Sueldo Por Horas:</label>
+                <label for="Monto" class="form-label">Monto:</label>
                 <InputNumber @bind-Value="Prestamos.monto" class="form-control" />
                 <ValidationMessage For="@(() => Prestamos.monto)" />
             </div>
@@ -40,10 +43,18 @@
         <div class="card-footer bg-light d-flex justify-content-center mt-3">
             <div class="btn-group">
                 <button type="button" class="btn btn-outline-primary ml-2" @onclick="Nuevo"><span class="bi bi-plus"></span> Nuevo </button>
-                <button type="submit" class="btn btn-outline-success ml-2"><span class="bi bi-check-circle-fill"></span> Guardar </button>
+                <button type="submit" class="btn btn-outline-success ml-2" @onclick="Guardar"><span class="bi bi-check-circle-fill"></span> Guardar </button>
                 <a type="button" href="/Prestamos/Index/" class="btn btn-outline-danger"><span class="bi bi-arrow-bar-left"></span> Retroceder </a>
             </div>
         </div>
+
+        @if (!string.IsNullOrEmpty(ErrorMessage))
+        {
+            <div class="alert alert-danger" role="alert">
+                @ErrorMessage
+            </div>
+        }
+
     </div>
 </EditForm>
 
@@ -51,8 +62,14 @@
     [Parameter]
     public int prestamosId { get; set; }
     public Prestamos Prestamos { get; set; } = new Prestamos();
+    public List<Deudores> ListaDeudores { get; set; } = new List<Deudores>();
     private bool Existe = false;
     private string ErrorMessage { get; set; } = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        ListaDeudores = await prestamosSevice.ObtenerDeudores();
+    }
 
     public void Nuevo()
     {
@@ -75,7 +92,9 @@
 
 
     public async Task Guardar()
-    {    
+    {
+        Prestamos.balance = Prestamos.monto;
+
         var guardo = await prestamosSevice.Guardar(Prestamos);
         if (guardo)
         {

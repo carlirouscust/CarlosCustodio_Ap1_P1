@@ -51,16 +51,23 @@ public class PrestamosService
     public async Task<Prestamos?> Buscar(int id)
     {
         return await _context.Prestamos.
-            AsNoTracking()        
+            AsNoTracking()
+            .Include(P => P.deudores)
             .FirstOrDefaultAsync(T => T.prestamoId == id);
     }
 
     public List<Prestamos> Listar(Expression<Func<Prestamos, bool>> criterio)
     {
         return _context.Prestamos.
-            AsNoTracking()         
+            AsNoTracking()  
+            .Include(P => P.deudores)
             .Where(criterio)
             .ToList();
+    }
+
+    public async Task<List<Deudores>> ObtenerDeudores()
+    {
+        return await _context.Deudores.ToListAsync();
     }
 }
 

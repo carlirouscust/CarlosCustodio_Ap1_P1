@@ -1,0 +1,84 @@
+﻿@page "/Cobros/Delete/{cobroId:int}"
+@rendermode InteractiveServer
+@inject CobrosService cobrosService
+@inject CobrosDetallesService cobrosDetallesService
+@inject NavigationManager navigationManager
+@inject IJSRuntime jsRuntime
+
+<PageTitle>Eliminar Cobro</PageTitle>
+
+@if (cobros != null)
+{
+    <div class="container">
+        <div class="card shadow-lg rounded">
+            <div class="card-header  bg-primary text-white text-center py-2 rounded">
+                <h3 class="text-center"><strong>Eliminar Cobro</strong></h3>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+
+                        <div class="card-body">
+                            <ul class="list-unstyled">
+                                <li><strong>CobroId:</strong> @cobros.cobroId</li>
+                                <li><strong>Fecha:</strong> @cobros.fecha.ToString("dd/MM/yyyy")</li>
+                                <li><strong>DeudorId:</strong> @cobros.deudores?.Nombres</li>
+                                <li><strong>Monto:</strong> @cobros.monto</li>
+                                <li><strong>Concepto:</strong> @cobrosDetalles?.prestamos?.concepto</li>
+                                <li><strong>Valor cobrado:</strong> @cobrosDetalles?.valorCobrado</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <button type="button" class="btn btn-danger" @onclick="Eliminar">Eliminar</button>
+                <a href="/Cobros/Index" class="btn btn-primary">
+                    <span>Volver </span> <i class="bi bi-arrow-left mt-3" />
+                </a>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <p>Cobro no encontrado.</p>
+}
+
+@code {
+    [Parameter]
+    public int cobroId { get; set; }
+    public Cobros? cobros { get; set; }
+    public CobrosDetalles? cobrosDetalles { get; set; }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        cobros = await cobrosService.Buscar(cobroId);
+        cobrosDetalles = await cobrosDetallesService.Buscar(cobroId);
+
+        if (cobros == null)
+        {
+            await jsRuntime.InvokeVoidAsync("El cobro no fue encontrado.");
+            Volver();
+        }
+    }
+
+    public async Task Eliminar()
+    {
+        if (cobros != null)
+        {
+            var eliminado = await cobrosService.Eliminar(cobros.cobroId);
+            if (eliminado)
+                Volver();
+            else
+                await jsRuntime.InvokeVoidAsync("No se pudo eliminar el cobro.");
+        }
+    }
+
+    public void Volver()
+    {
+        navigationManager.NavigateTo("/Cobro/Index");
+    }
+}
