@@ -45,6 +45,7 @@ public class CobrosDetallesService
     {
         return await _contexto.CobrosDetalles
         .AsNoTracking()
+        .Include(c => c.prestamos)
         .FirstOrDefaultAsync(c => c.detalleId == id);
     }
 
